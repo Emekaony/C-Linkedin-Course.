@@ -5,8 +5,6 @@ namespace basics.audio {
             string name = Console.ReadLine() ?? "";
             if (string.IsNullOrEmpty(name)) {
                 Console.WriteLine("User must enter valid text please!");
-            } else {
-                Console.WriteLine($"{name} is playing the song {filename} from {start} to {end}");
             }
         }
     }
