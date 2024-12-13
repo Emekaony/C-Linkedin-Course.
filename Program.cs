@@ -1,4 +1,4 @@
-﻿namespace Program {
+﻿namespace basics {
     public class Basics() {
 
         public static void Main(string[] args) {
