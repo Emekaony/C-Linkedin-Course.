@@ -26,19 +26,20 @@ namespace basics.oop {
         }
 
         public virtual void Deposit(decimal deposit) {
-            this.Balance += deposit;
+            Balance += deposit;
         }
 
         public virtual void Withdraw(decimal amount) {
-            this.Balance -= amount;
+            Balance -= amount;
         }
     }
 
     public class CheckingAcct(string fname, string lname, decimal startingBalance = 0.0m) : BankAccount(fname, lname, startingBalance) {
+        private const decimal OVERDRAFT_FEE = 35.0m;
         public override void Withdraw(decimal amount) {
             // charge a $35 overdraft fee.
-            if (amount > this.Balance) {
-                base.Withdraw(amount + 35.0m);
+            if (amount > Balance) {
+                base.Withdraw(amount + OVERDRAFT_FEE);
             } else {
                 base.Withdraw(amount);
             }
@@ -47,6 +48,8 @@ namespace basics.oop {
     }
 
     public class SavingsAcct(string fname, string lname, decimal rate, decimal startingBalance = 0.0m) : BankAccount(fname, lname, startingBalance) {
+        private const int WITHDRAW_LIMIT = 3;
+        private const decimal WITHDRAWAL_FEE = 2.0m;
         private decimal _interestRate = rate;
         private int withdawalCount = 0;
 
@@ -62,14 +65,14 @@ namespace basics.oop {
 
         public override void Withdraw(decimal amount) {
             // check to see if we exceed the current balance
-            if (amount < this.Balance) {
-                if (withdawalCount >= 3) {
-                    base.Withdraw(amount + 2.0m);
-                    Console.WriteLine($"Current savings balance is: {this.Balance}");
+            if (amount < Balance) {
+                if (withdawalCount >= WITHDRAW_LIMIT) {
+                    base.Withdraw(amount + WITHDRAWAL_FEE);
+                    Console.WriteLine($"Current savings balance is: {Balance}");
                     withdawalCount++;
                 } else {
                     base.Withdraw(amount);
-                    Console.WriteLine($"Current savings balance is: {this.Balance}");
+                    Console.WriteLine($"Current savings balance is: {Balance}");
                     withdawalCount++;
                 }
             }
