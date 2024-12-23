@@ -65,15 +65,17 @@ namespace basics.oop {
 
         public override void Withdraw(decimal amount) {
             // check to see if we exceed the current balance
-            if (amount < Balance) {
-                if (withdawalCount >= WITHDRAW_LIMIT) {
-                    base.Withdraw(amount + WITHDRAWAL_FEE);
-                    Console.WriteLine($"Current savings balance is: {Balance}");
-                    withdawalCount++;
-                } else {
-                    base.Withdraw(amount);
-                    Console.WriteLine($"Current savings balance is: {Balance}");
-                    withdawalCount++;
+
+            if (amount > Balance) {
+                Console.WriteLine("Attempt to withdraw past current Balance denied.");
+            } else {
+                base.Withdraw(amount + WITHDRAWAL_FEE);
+                Console.WriteLine($"Current savings balance is: {Balance}");
+                withdawalCount++;
+
+                // charge fee for more than 3 withdrawals
+                if (withdawalCount > WITHDRAW_LIMIT) {
+                    base.Withdraw(WITHDRAWAL_FEE);
                 }
             }
         }
